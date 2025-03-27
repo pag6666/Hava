@@ -1,26 +1,26 @@
 #pragma once
 #include "object.h"
 namespace System {
-class Int: public Object {
+class Char: public Object {
 private:
-    int value = 0;
+    char value = '\0';
 public:
-    Int():Int(0) { }
-    Int(int value) {
+    Char():Char('\0') { }
+    Char(char value) {
         this->value = value;
     }
     std::string ToString() const override {
-        return ("Int: " + std::to_string(value));
+        return ("Char: " + std::to_string(value));
     }
     size_t GetHashCode() const override {
-        return std::hash<int>()(value);
+        return std::hash<char>()(value);
     }
-    int operator = (int out) {
+    char operator = (char out) {
         return value = out;
     }
-    operator int() const {
+    operator char() const {
         return value;
     }
-    ~Int() {}
+    ~Char() {}
 };
 }

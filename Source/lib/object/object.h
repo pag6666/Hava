@@ -8,7 +8,6 @@ class Object {
 private:
     std::string value = "";
 public:
-    
     virtual std::string ToString() const {
         return "Object: " + value;
     }
@@ -24,6 +23,6 @@ public:
         return this->GetHashCode() == other.GetHashCode();
     }
 
-    virtual ~Object() {}
+    ~Object() {}
 };
 }
