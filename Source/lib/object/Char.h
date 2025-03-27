@@ -1,4 +1,5 @@
 #pragma once
+
 #include "object.h"
 namespace System {
 class Char: public Object {
@@ -10,7 +11,7 @@ public:
         this->value = value;
     }
     std::string ToString() const override {
-        return ("Char: " + std::to_string(value));
+        return ("Char: " + value);
     }
     size_t GetHashCode() const override {
         return std::hash<char>()(value);

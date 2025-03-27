@@ -1,4 +1,5 @@
 #pragma once
+
 #include "object.h"
 namespace System {
 class Double: public Object {

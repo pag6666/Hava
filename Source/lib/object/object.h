@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -8,8 +10,9 @@ class Object {
 private:
     std::string value = "";
 public:
+    Object() {}
     virtual std::string ToString() const {
-        return "Object: " + value;
+        return "Object: " + std::string(value);
     }
     Object operator =(std::string out) {
         value = out;
