@@ -6,7 +6,8 @@ class Char: public Object {
 private:
     char value = '\0';
 public:
-    Char():Char('\0') { }
+    Char():Char('\0') { 
+    }
     Char(char value) {
         this->value = value;
     }

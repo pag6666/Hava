@@ -2,8 +2,10 @@
 #include <cstdint>
 #include <cmath>
 
-namespace fun {
-    double rem(double n1, double n2) {
-        return fmod(n1, n2);
+namespace System {
+    namespace Fun {
+        double rem(double n1, double n2) {
+            return fmod(n1, n2);
+        }
     }
 }
