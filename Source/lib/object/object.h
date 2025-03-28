@@ -4,6 +4,8 @@
 #include <sstream>
 #include <functional>
 
+#define VAR_NAME(x) #x
+
 namespace System {
     class Object {
     private:

@@ -16,9 +16,9 @@ public:
     Float(float value) {
         this->value = value;
          if (isPointerFlag)
-	        System::Memory::Gc::heap.push_back(this);
+	        System::Memory::Gc::heap.push_back(System::Memory::p_gc_type(this, VAR_NAME(System::Float)));
         else
-	        System::Memory::Gc::stack.push_back(this);
+	        System::Memory::Gc::stack.push_back(System::Memory::p_gc_type(this, VAR_NAME(System::Float)));
     }
     std::string ToString() const override {
         return ("Float: " + std::to_string(value));

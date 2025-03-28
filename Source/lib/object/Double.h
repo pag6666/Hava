@@ -16,9 +16,9 @@ public:
     Double(double value) {
         this->value = value;
          if (isPointerFlag)
-	        System::Memory::Gc::heap.push_back(this);
+	        System::Memory::Gc::heap.push_back(System::Memory::p_gc_type(this, VAR_NAME(System::Double)));
         else
-	        System::Memory::Gc::stack.push_back(this);
+	        System::Memory::Gc::stack.push_back(System::Memory::p_gc_type(this, VAR_NAME(System::Double)));
     }
     std::string ToString() const override {
         return ("Double: " + std::to_string(value));

@@ -2,15 +2,16 @@
 
 #include "object.h"
 #include "../memory_stack/GC/Gc.h"
+
 namespace System {
 class String: public Object {
 private:
     std::string value = "";
     void setupPointerFlag() {
         if (isPointerFlag)
-	        System::Memory::Gc::heap.push_back(this);
+	        System::Memory::Gc::heap.push_back(System::Memory::p_gc_type(this, VAR_NAME(System::Object)));
         else
-	        System::Memory::Gc::stack.push_back(this);
+	        System::Memory::Gc::stack.push_back(System::Memory::p_gc_type(this, VAR_NAME(System::Object)));
     }
 public:
     static bool isPointerFlag;
