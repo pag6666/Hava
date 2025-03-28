@@ -6,6 +6,12 @@ namespace System {
 class String: public Object {
 private:
     std::string value = "";
+    void setupPointerFlag() {
+        if (isPointerFlag)
+	        System::Memory::Gc::heap.push_back(this);
+        else
+	        System::Memory::Gc::stack.push_back(this);
+    }
 public:
     static bool isPointerFlag;
     void* operator new(size_t size) {
@@ -15,16 +21,15 @@ public:
     String():String("") { }
     String(std::string value) {
         this->value = value;
-         if (isPointerFlag)
-	        System::Memory::Gc::heap.push_back(this);
-        else
-	        System::Memory::Gc::stack.push_back(this);
+        setupPointerFlag();
     }
     String(const char value[]) {
         this->value = std::string(value);
+        setupPointerFlag();
     }
     String(char* value) {
         this->value = std::string(value);
+        setupPointerFlag();
     }
     std::string ToString() const override {
         return ("String: " + value);
