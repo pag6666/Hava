@@ -1,16 +1,19 @@
 #pragma once
-
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <functional>
-#include "../memory_stack/memory_stack_heap.h"
 
 namespace System {
     class Object {
     private:
         std::string value = "";
     public:
+        static bool isPointerFlag;
+        void* operator new(size_t size) {
+            isPointerFlag = true;
+            return ::operator new(size);
+        }
         Object() {
         }
         virtual std::string ToString() const {
@@ -30,4 +33,5 @@ namespace System {
 
         ~Object() {}
     };
+    bool System::Object::isPointerFlag = false;
 }

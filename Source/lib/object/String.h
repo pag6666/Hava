@@ -1,14 +1,24 @@
 #pragma once
 
 #include "object.h"
+#include "../memory_stack/GC/Gc.h"
 namespace System {
 class String: public Object {
 private:
     std::string value = "";
 public:
+    static bool isPointerFlag;
+    void* operator new(size_t size) {
+        isPointerFlag = true;
+        return ::operator new(size);
+    }
     String():String("") { }
     String(std::string value) {
         this->value = value;
+         if (isPointerFlag)
+	        System::Memory::Gc::heap.push_back(this);
+        else
+	        System::Memory::Gc::stack.push_back(this);
     }
     String(const char value[]) {
         this->value = std::string(value);
@@ -36,4 +46,5 @@ public:
     }
     ~String() {}
 };
+bool System::String::isPointerFlag = false;
 }
