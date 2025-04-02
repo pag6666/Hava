@@ -3,6 +3,7 @@
 #include "../memory_stack/GC/Gc.h"
 #include "../object/ex_object.h"
 #include "fun_generic_type.h"
+#include "../memory_stack/Stack/p_stack_type.h"
 #include <locale>
 #include <codecvt>
 #include <fstream>
@@ -13,6 +14,7 @@ namespace System {
     namespace Interpreter {
         class Interpreter {
             private:
+            std::vector<System::Stack::Type::p_stack_type> stack;
             int LEFT = 0;
             int RIGHT = 1;
             std::vector<std::string> split(const std::string& text, const std::string& dec) {
@@ -72,30 +74,63 @@ namespace System {
             bool StringProcessing(std::string code) {
                 print_vector(split(code, "="));
                 if(std::vector<std::string> p_line = split(code, "="); p_line.size() > 0) {
-                    std::string text = p_line[RIGHT];
-                    text = text.substr(0, text.length() - 1);
-                    System::Generic::g_type type = System::Generic::determineType(text);
-                    std::cout << "n:= " << text << ", type:= " << type << std::endl;
-                    if(type == System::Generic::g_type::BOOL) {
-                        
-                    }
-                    else if(type == System::Generic::g_type::CHAR) {
+                    std::string char_right = p_line[RIGHT];
+                    char_right = char_right.substr(0, char_right.length() - 1);
+                    char_right = RemoveSpaces(char_right);
+                    std::cout << "value: " << char_right << std::endl;
+                    System::Generic::g_type type = System::Generic::determineType(char_right);
+                    std::string char_left = RemoveSpaces(p_line[LEFT]);
+                    std::cout << "char_right:= " << char_right << ", char_left:= " << char_left << ", type:= " << type << std::endl;
+                    if (char_left[char_left.size() - 1] == '*') 
+                    {
+
+                        stack.push_back(System::Stack::Type::p_stack_type(char_left.substr(0, char_left.length() - 1), char_right));
+                        if(type == System::Generic::g_type::BOOL) {
+                            
+                        }
+                        else if(type == System::Generic::g_type::CHAR) {
+
+                        }
+                        else if(type == System::Generic::g_type::DOUBLE) {
+                            System::Double* temp_int = new System::Double(atof(char_right.c_str()));
+                        }
+                        else if(type == System::Generic::g_type::FLOAT) {
+                            System::Float* temp_int = new System::Float(atof(char_right.c_str()));
+                        }
+                        else if(type == System::Generic::g_type::INT) {
+                            System::Int* temp_int = new System::Int(atoi(char_right.c_str()));
+                        }
+                        else if(type == System::Generic::g_type::OBJECT) {
+                            
+                        }
+                        else if(type == System::Generic::g_type::STRING) {
+                            System::String* temp_int = new System::String(char_right);
+                        }
 
                     }
-                    else if(type == System::Generic::g_type::DOUBLE) {
+                    else {
+                        stack.push_back(System::Stack::Type::p_stack_type(char_left, char_right));
+                        if(type == System::Generic::g_type::BOOL) {
+                            
+                        }
+                        else if(type == System::Generic::g_type::CHAR) {
 
-                    }
-                    else if(type == System::Generic::g_type::FLOAT) {
-
-                    }
-                    else if(type == System::Generic::g_type::INT) {
-                        
-                    }
-                    else if(type == System::Generic::g_type::OBJECT) {
-
-                    }
-                    else if(type == System::Generic::g_type::STRING) {
-
+                        }
+                        else if(type == System::Generic::g_type::DOUBLE) {
+                            System::Double temp_int = atof(char_right.c_str());
+                        }
+                        else if(type == System::Generic::g_type::FLOAT) {
+                            System::Float temp_int = atof(char_right.c_str());
+                        }
+                        else if(type == System::Generic::g_type::INT) {
+                            System::Int temp_int = atoi(char_right.c_str());
+                        }
+                        else if(type == System::Generic::g_type::OBJECT) {
+                            
+                        }
+                        else if(type == System::Generic::g_type::STRING) {
+                            System::String temp_int = char_right;
+                        }
                     }
                     //return true;
                 }
@@ -110,6 +145,7 @@ namespace System {
                 this->list_line_code = std::vector<std::string>();
             }
             void OpenFile(std::wstring path) {
+                stack = std::vector<System::Stack::Type::p_stack_type>();
                 list_line_code.clear();
                 this->list_line_code = readLinesFromFile(path);
                 for(std::string line: list_line_code) {
@@ -121,7 +157,7 @@ namespace System {
             }
             void PrintScripts() {
                 for(size_t i = 0; i < list_line_code.size(); i++) {
-                    std::cout << list_line_code[i] << std::endl; 
+                    std::cout << list_line_code[i] << std::endl;
                 }
                 
                 std::cout<<std::endl;
@@ -130,6 +166,12 @@ namespace System {
 
                 for(size_t i = 0; i < list_line_code.size(); i++) {
                     std::cout << RemoveSpaces(list_line_code[i]).c_str() << std::endl; 
+                }
+                std::cout<<std::endl;
+                std::cout << "____STACK_Params___" << std::endl;
+                std::cout << std::endl;
+                for (System::Stack::Type::p_stack_type i_pe : stack) {
+                    std::cout << "name:= " << i_pe.name << ", value:= " << i_pe.value << std::endl;
                 }
             }
         };

@@ -28,6 +28,7 @@ int main (int argc, char* argv[]) {
     inter->OpenFile(L"C:\\Users\\SystemX\\Documents\\test\\main.hava");
     inter->PrintScripts();
     
+    System::Memory::Gc::Info();
     delete inter;
     return EXIT_SUCCESS;
 }
